@@ -1,236 +1,296 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Admin Panel — Utsah Festival Registrations</title>
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&family=Prata&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Fast Lane Racing - Dominate the Streets</title>
+    <!-- Google Fonts for Racing Style -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <style>
+        :root {
+            --dark-bg: #1a1a1a;
+            --primary-accent: #00ff7f;
+            --secondary-accent: #ff4500;
+            --light-gray: #2b2b2b;
+            --text-color: #e0e0e0;
+            --heading-font: 'Roboto Condensed', sans-serif;
+            --body-font: 'Roboto', sans-serif;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--body-font); background-color: var(--dark-bg); color: var(--text-color); line-height: 1.7; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        h1, h2, h3 { font-family: var(--heading-font); color: #fff; text-transform: uppercase; letter-spacing: 1.5px; }
+        h2 { text-align: center; font-size: 3em; margin-bottom: 60px; position: relative; }
+        h2::after { content: ''; width: 100px; height: 5px; background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent)); position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); border-radius: 5px; }
+        section { padding: 80px 0; position: relative; }
+        .angled-divider { position: absolute; width: 100%; height: 100px; background: var(--dark-bg); clip-path: polygon(0 0, 100% 100%, 0 100%); }
+        .top-angle { top: -1px; transform: rotate(180deg); }
+        .bottom-angle { bottom: -1px; }
 
-  <style>
-    :root {
-      --font-heading: 'Prata', serif;
-      --font-body: 'Mukta', sans-serif;
-      --color-primary: #1e3a8a;
-      --color-accent: #f97316;
-      --color-background: #f1f5f9;
-      --color-text: #374151;
-      --color-card-bg: #ffffff;
-      --color-border: #e5e7eb;
-      --color-error: #ef4444;
-      --shadow-soft: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-      --shadow-medium: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body {
-      font-family: var(--font-body);
-      background-color: var(--color-background);
-      color: var(--color-text);
-      line-height: 1.6;
-    }
-    .container { max-width: 1200px; margin: 30px auto; padding: 20px; }
-    .header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
-    .header .logo {
-      font-family: var(--font-heading); font-size: 28px; color: var(--color-accent);
-      border: 3px solid var(--color-accent); border-radius: 50%;
-      width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;
-      background: white; box-shadow: var(--shadow-soft);
-    }
-    .header h1 { font-family: var(--font-heading); color: var(--color-primary); font-size: 2rem; }
-    .header p { color: #64748b; }
-    #authCard {
-      max-width: 450px; margin: 50px auto; background: var(--color-card-bg);
-      padding: 40px; border-radius: 16px; box-shadow: var(--shadow-medium); text-align: center;
-      animation: fade-in 0.5s ease;
-    }
-    #authCard h2 { font-family: var(--font-heading); color: var(--color-primary); margin-bottom: 10px; }
-    #authCard p { color: #64748b; margin-bottom: 25px; }
-    .form-group { text-align: left; margin-bottom: 15px; }
-    label { font-weight: 600; font-size: 0.9rem; margin-bottom: 6px; display: block; }
-    input { width: 100%; padding: 12px 16px; border-radius: 8px; border: 1px solid var(--color-border); font-size: 1rem; }
-    input:focus { outline: none; border-color: var(--color-accent); box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2); }
-    .btn { border: none; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 1rem; cursor: pointer; transition: all 0.2s ease-in-out; width: 100%; }
-    .btn-primary { background-color: var(--color-accent); color: white; box-shadow: var(--shadow-soft); margin-top: 10px; }
-    .btn-primary:hover { background-color: #ea580c; }
-    .dashboard { background: var(--color-card-bg); border-radius: 16px; padding: 30px; box-shadow: var(--shadow-medium); animation: fade-in 0.5s ease; }
-    @keyframes fade-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    .controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px; }
-    .search-bar { width: 100%; max-width: 350px; }
-    .actions { display: flex; gap: 10px; }
-    .btn-secondary { background-color: #e2e8f0; color: #334155; width: auto; }
-    .table-container { overflow-x: auto; max-height: 65vh; }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { padding: 12px 15px; border-bottom: 1px solid var(--color-border); text-align: left; font-size: 0.95rem; vertical-align: middle; }
-    th { background-color: #f8fafc; color: var(--color-primary); position: sticky; top: 0; z-index: 1; font-weight: 600; }
-    tbody tr:hover { background-color: #f1f5f9; }
-    .btn-sm { padding: 6px 10px; font-size: 0.8rem; width: auto; font-weight: 600; }
-    .btn-delete { background-color: #fee2e2; color: #b91c1c; }
-    
-    /* --- UPDATED: Beautiful Modal Styles --- */
-    .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); backdrop-filter: blur(4px); }
-    .modal-content { background-color: #fefefe; margin: 8% auto; padding: 0; border: 0; width: 90%; max-width: 600px; border-radius: 16px; box-shadow: var(--shadow-medium); position: relative; animation: fade-in 0.3s; overflow: hidden; }
-    .modal-header { padding: 15px 25px; background-color: var(--color-primary); color: white; border-bottom: 1px solid var(--color-border); }
-    .modal-header h2 { font-family: var(--font-heading); font-size: 1.5rem; }
-    .modal-header .close-btn { color: white; opacity: 0.8; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
-    .modal-body { padding: 25px; }
-    .detail-row { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid #f1f5f9; position: relative; }
-    .detail-row:last-child { border-bottom: none; }
-    .detail-icon { width: 20px; height: 20px; margin-right: 15px; color: var(--color-primary); flex-shrink: 0; }
-    .detail-info { flex-grow: 1; }
-    .detail-info strong { display: block; font-size: 0.8rem; color: #64748b; text-transform: uppercase; }
-    .detail-info span { font-size: 1rem; word-break: break-word; }
-    .copy-btn { background: none; border: none; cursor: pointer; padding: 5px; border-radius: 50%; margin-left: 10px; }
-    .copy-btn:hover { background-color: #e2e8f0; }
-    .copy-btn svg { width: 16px; height: 16px; color: #64748b; }
-    .copy-tooltip { position: absolute; right: 45px; top: 50%; transform: translateY(-50%); background: #334155; color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; opacity: 0; visibility: hidden; transition: opacity 0.3s; }
-    .copy-btn:hover .copy-tooltip.show { opacity: 1; visibility: visible; }
-  </style>
+        /* --- LANGUAGE SWITCHER --- */
+        .lang-switcher { position: fixed; top: 20px; right: 20px; z-index: 1000; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); border-radius: 50px; display: flex; gap: 5px; padding: 5px; border: 1px solid #444;}
+        .lang-switcher button { background: transparent; color: #fff; border: none; padding: 10px 15px; font-family: var(--heading-font); font-size: 1em; cursor: pointer; border-radius: 50px; transition: background-color 0.3s ease; }
+        .lang-switcher button.active { background-color: var(--primary-accent); color: var(--dark-bg); }
+        .lang-switcher .icon { color: var(--primary-accent); padding-right: 5px; }
+
+        /* --- HERO SECTION --- */
+        .hero { background-image: linear-gradient(rgba(26, 26, 26, 0.8), rgba(26, 26, 26, 1)), url('images/hero-bg.jpg'); background-size: cover; background-position: center; padding: 100px 0; text-align: center; }
+        .hero .logo { width: 250px; max-width: 80%; height: auto; margin-bottom: 20px; }
+        .hero h1 { font-size: clamp(2.5em, 8vw, 4.5em); color: #fff; text-shadow: 0 0 15px var(--primary-accent); }
+        .hero p { font-size: 1.4em; margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto; color: #ccc; }
+        .cta-button { display: inline-flex; align-items: center; gap: 15px; background: linear-gradient(45deg, var(--secondary-accent), #ff6a33); color: #fff; padding: 20px 45px; font-size: 1.5em; font-weight: bold; font-family: var(--heading-font); text-decoration: none; border-radius: 50px; transition: all 0.3s ease; box-shadow: 0 0 20px rgba(255, 69, 0, 0.6); text-transform: uppercase; }
+        .cta-button:hover { transform: scale(1.05) translateY(-5px); box-shadow: 0 0 35px rgba(255, 69, 0, 0.8); }
+
+        /* --- FULLY RESPONSIVE IMAGE STYLES --- */
+        img {
+            max-width: 100%; /* Ensures image is never wider than its container */
+            height: auto; /* Maintains aspect ratio */
+            display: block; /* Removes bottom space under image */
+            border-radius: 12px; /* Consistent rounded corners */
+        }
+
+        .step-card img, .screenshots-grid img {
+            border: 3px solid #444;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            margin-top: 20px;
+            width: 100%; /* Make image take full width of its card */
+            height: 450px; /* Give a fixed height for consistency on larger screens */
+            object-fit: cover; /* This is the magic! Fits image without stretching */
+            object-position: top center; /* Focus on the top part of the image when cropping */
+        }
+        
+        @media (max-width: 768px) {
+             .step-card img, .screenshots-grid img {
+                height: 400px; /* Adjust height for smaller screens */
+             }
+        }
+
+        /* --- INSTALLATION GUIDE --- */
+        #installation { background-color: var(--light-gray); }
+        .installation-intro { text-align: center; max-width: 800px; margin: 0 auto 60px auto; }
+        .installation-intro .icon { font-size: 4em; color: var(--primary-accent); margin-bottom: 20px; }
+        .installation-intro h3 { font-size: 2em; margin-bottom: 15px; }
+        .installation-intro p { font-size: 1.1em; color: #ccc; }
+        .installation-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; align-items: flex-start; }
+        .step-card { background: var(--dark-bg); padding: 30px; border-radius: 15px; text-align: center; border-top: 5px solid var(--primary-accent); }
+        .step-card h3 { color: var(--primary-accent); font-size: 1.8em; margin-bottom: 15px; }
+        
+        /* --- OTHER SECTIONS (Features, Screenshots, Footer) --- */
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .feature-card { background-color: var(--light-gray); padding: 30px; border-radius: 15px; transition: transform 0.3s ease, box-shadow 0.3s ease; text-align: center; }
+        .feature-card:hover { transform: translateY(-10px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); }
+        .feature-card .icon { font-size: 3.5em; color: var(--primary-accent); text-shadow: 0 0 10px var(--primary-accent); }
+        .feature-card h3 { font-size: 1.5em; margin-top: 20px; margin-bottom: 10px; }
+        #screenshots { background-color: var(--light-gray); }
+        .screenshots-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+        .screenshots-grid img { transition: transform 0.3s ease; }
+        .screenshots-grid img:hover { transform: scale(1.05); }
+        .footer { text-align: center; padding: 60px 20px; }
+        .footer h2 { font-size: 2.5em; }
+        .footer p { margin-top: 30px; color: #aaa; }
+        
+        /* --- ANIMATIONS --- */
+        .animate-on-scroll { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+        .animate-on-scroll.visible { opacity: 1; transform: translateY(0); }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <header class="header"><div class="logo">A</div><div><h1>Utsah Festival - Admin Panel</h1><p>View, search, and manage all devotee registrations in real-time.</p></div></header>
-    <section id="authCard"><h2>Admin Login</h2><p>Please sign in to access the dashboard.</p><div class="form-group"><label for="emailInput">Email</label><input id="emailInput" type="email" placeholder="admin@iskcon.org"/></div><div class="form-group"><label for="pwdInput">Password</label><input id="pwdInput" type="password" placeholder="••••••••"/></div><button id="loginBtn" class="btn btn-primary">Sign In</button></section>
-    <section id="dashboard" class="dashboard" style="display:none;"><div class="controls"><input id="searchInput" class="search-bar" placeholder="Search by name, email, contact, or college..."/><div class="actions"><button id="exportBtn" class="btn btn-secondary">Export CSV</button><button id="logoutBtn" class="btn btn-secondary">Logout</button></div></div><div class="table-container"><table id="regTable"><thead><tr><th>#</th><th>Name</th><th>Email & Contact</th><th>College</th><th>Registered At</th><th>Actions</th></tr></thead><tbody></tbody></table></div></section>
-  </div>
 
-  <div id="detailsModal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header"><span class="close-btn">&times;</span><h2 id="modalName"></h2></div>
-      <div id="modalBody" class="modal-body"></div>
+    <!-- ======================= LANGUAGE SWITCHER ======================== -->
+    <div class="lang-switcher">
+        <span class="icon"><i class="fas fa-globe"></i></span>
+        <button id="btn-en" class="active">EN</button>
+        <button id="btn-hi">HI</button>
     </div>
-  </div>
 
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <main>
+        <!-- ======================= HERO SECTION ======================== -->
+        <section class="hero">
+            <div class="container animate-on-scroll">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjM_qDEwdrztIFK_UF7KhR-6RVccLl1rexxo2MWxjNZtvxqi2l-Z4UtfH5KdO69vmGi8FyqSVy4B2fmWD15RCcR4Fn4nR6OGbzemnDzwGHOsgXw2d-FgfkdEzyVXI5cx7qkLU1mDaqlvZMaGA3EmdJFUHusol6Zmi8iFuZ5X5mlQy_CoIO4AhAVkYq-2vdh/s500/logo.png.png" alt="Fast Lane Racing Logo" class="logo">
+                <h1 data-lang-key="hero_title">DOMINATE THE STREETS</h1>
+                <p data-lang-key="hero_subtitle">Pure Adrenaline. Endless Traffic. One Goal: Survive. Can you handle the speed?</p>
+                <a href="https://surl.li/ydvphy" class="cta-button">
+                    <i class="fas fa-bolt"></i>
+                    <span data-lang-key="hero_cta">DOWNLOAD & RACE NOW</span>
+                </a>
+            </div>
+        </section>
 
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyD149DYviQUs9vvEhGfGkEWdL8E7pX58Tw",
-      authDomain: "hello-7cfa1.firebaseapp.com",
-      databaseURL: "https://hello-7cfa1-default-rtdb.firebaseio.com",
-      projectId: "hello-7cfa1",
-      storageBucket: "hello-7cfa1.firebasestorage.app",
-      messagingSenderId: "774887532758",
-      appId: "1:774887532758:web:fdcab08225d3262fa10177"
-    };
-    const DB_PATH = 'utsah-festival-registrations';
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth(), db = firebase.database();
-    const authCard = document.getElementById('authCard'), dashboard = document.getElementById('dashboard');
-    const loginBtn = document.getElementById('loginBtn'), logoutBtn = document.getElementById('logoutBtn');
-    const emailInput = document.getElementById('emailInput'), pwdInput = document.getElementById('pwdInput');
-    const tableBody = document.querySelector('#regTable tbody'), searchInput = document.getElementById('searchInput');
-    const detailsModal = document.getElementById('detailsModal'), modalName = document.getElementById('modalName'), modalBody = document.getElementById('modalBody'), closeModalBtn = document.querySelector('.close-btn');
-    let allRegistrations = [], dbListener = null;
+        <!-- ======================= INSTALLATION SECTION ======================== -->
+        <section id="installation">
+            <div class="angled-divider top-angle"></div>
+            <div class="container">
+                <h2 class="animate-on-scroll" data-lang-key="install_title">Secure & Simple Installation</h2>
+                <div class="installation-intro animate-on-scroll">
+                    <div class="icon"><i class="fas fa-shield-halved"></i></div>
+                    <h3 data-lang-key="install_why_title">Why This Security Warning?</h3>
+                    <p data-lang-key="install_why_desc">Your phone's security (Google Play Protect) shows this prompt for any new app from outside the Play Store. It's a standard check. <strong>This does NOT mean the app is unsafe.</strong> We guarantee it is 100% secure.</p>
+                </div>
+                <div class="installation-grid">
+                    <div class="step-card animate-on-scroll" style="transition-delay: 0.2s;">
+                        <h3 data-lang-key="install_step1_title"><i class="fas fa-search"></i> STEP 1: SCAN</h3>
+                        <p data-lang-key="install_step1_desc">This is a standard security check. Tap <strong>"Scan app"</strong> to begin.</p>
+                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgw9Tz-z85kXRRAu38aRk1UrCJmZhpLbllH_QLPhAjfAbulEnCcdF1PZkARSm1thk6PjE71yPq2Bt1MH_MfhfWM232fO29s8reFlfe7egU3XqMcs9YEYMmq5oVDSJ6ve73znYnjKIrdMGW8E4agal4Hjw7WFcS6o4n72zhhm5YWQ0YACcZ9L-ebSeXGBHy1/s1544/Screenshot_20251112_152459.jpg" alt="Installation Step 1">
+                    </div>
+                    <div class="step-card animate-on-scroll" style="transition-delay: 0.4s;">
+                        <h3 data-lang-key="install_step2_title"><i class="fas fa-cog fa-spin"></i> STEP 2: VERIFY</h3>
+                        <p data-lang-key="install_step2_desc">Play Protect will quickly verify the file. This just takes a moment.</p>
+                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhoaTluksS9xJcvd2VO4sXAJ0NldPrLPUnnVSLOCC2ey1rZDBXW6yVCH66lXsJSbbDb_fXjVCx7a1RaKH2QTJKNbC0VDB4p_YTl-R2s_O1hJ9odn_0qq-iJgtv9QEzY_Ip4WwWfe5f1XuxJivX_ib5JyFQWE08wo2NfWsvOTBLBFahbPurcKReMh1a1yu0c/s1544/Screenshot_20251112_152510.jpg" alt="Installation Step 2">
+                    </div>
+                    <div class="step-card animate-on-scroll" style="transition-delay: 0.6s;">
+                        <h3 data-lang-key="install_step3_title"><i class="fas fa-flag-checkered"></i> STEP 3: RACE!</h3>
+                        <p data-lang-key="install_step3_desc">Tap <strong>"Install anyway"</strong> to finish. That's it! You're ready to burn rubber.</p>
+                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg_VUTrEDhUrWKqNSiRNwW72k2x1Ur0dWZuAlSfgGI5_N-FFeEUMlUQehsiEmduYVIswSJPMnUWF2FBnDFqUiEilQ9blqc-fabr9IkKnC1VAYU8mYeapQsM4daHtmk_cgPWvceFb5RPh39Z-H3wvl6xASphkSlVsbwiAc2Q5k2-LGsMpOiPiDsw1_oRjV9J/s1544/Screenshot_20251112_223803.jpg" alt="Game Main Menu">
+                    </div>
+                </div>
+            </div>
+            <div class="angled-divider bottom-angle"></div>
+        </section>
 
-    auth.onAuthStateChanged(user => {
-      if (user) { authCard.style.display = 'none'; dashboard.style.display = 'block'; attachDbListener(); } 
-      else { authCard.style.display = 'block'; dashboard.style.display = 'none'; detachDbListener(); }
-    });
-    loginBtn.addEventListener('click', () => {
-      const email = emailInput.value.trim(), password = pwdInput.value;
-      if (!email || !password) return alert('Email and Password are required.');
-      loginBtn.disabled = true; loginBtn.textContent = 'Signing In...';
-      auth.signInWithEmailAndPassword(email, password)
-        .catch(error => alert('Login Failed: ' + error.message))
-        .finally(() => { loginBtn.disabled = false; loginBtn.textContent = 'Sign In'; });
-    });
-    logoutBtn.addEventListener('click', () => { if (confirm('Are you sure you want to logout?')) auth.signOut(); });
+        <!-- ======================= FEATURES SECTION ======================== -->
+        <section id="features" class="container">
+            <h2 class="animate-on-scroll" data-lang-key="features_title">Engineered for Thrills</h2>
+            <div class="features-grid">
+                <div class="feature-card animate-on-scroll">
+                    <div class="icon"><i class="fas fa-trophy"></i></div>
+                    <h3 data-lang-key="feature1_title">GLOBAL LEADERBOARDS</h3>
+                    <p data-lang-key="feature1_desc">Go head-to-head with players worldwide. Only the best will reach the top.</p>
+                </div>
+                <div class="feature-card animate-on-scroll" style="transition-delay: 0.2s;">
+                    <div class="icon"><i class="fas fa-gamepad"></i></div>
+                    <h3 data-lang-key="feature2_title">INTUITIVE CONTROLS</h3>
+                    <p data-lang-key="feature2_desc">Easy to learn, impossible to master. Responsive swipe controls for high-speed action.</p>
+                </div>
+                <div class="feature-card animate-on-scroll" style="transition-delay: 0.4s;">
+                    <div class="icon"><i class="fas fa-share-alt"></i></div>
+                    <h3 data-lang-key="feature3_title">CHALLENGE YOUR CREW</h3>
+                    <p data-lang-key="feature3_desc">Share your epic scores and challenge your friends to see who truly owns the road.</p>
+                </div>
+            </div>
+        </section>
 
-    function attachDbListener() {
-      if (dbListener) return;
-      dbListener = db.ref(DB_PATH);
-      dbListener.on('value', snapshot => {
-        const data = snapshot.val() || {};
-        allRegistrations = Object.keys(data).map(key => ({ key, ...data[key] }))
-          .sort((a, b) => new Date(b.registeredAt) - new Date(a.registeredAt));
-        renderTable();
-      }, error => { console.error("DB read failed:", error); alert("Failed to load data."); });
-    }
-    function detachDbListener() { if (dbListener) { dbListener.off(); dbListener = null; } allRegistrations = []; renderTable(); }
-
-    function renderTable() { /* Renders the main table view */
-      const query = searchInput.value.toLowerCase().trim();
-      tableBody.innerHTML = '';
-      const filteredData = allRegistrations.filter(reg => !query || `${reg.name} ${reg.email} ${reg.contact} ${reg.college}`.toLowerCase().includes(query));
-      if (filteredData.length === 0) { tableBody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding: 40px;">${allRegistrations.length === 0 ? 'No registrations yet.' : 'No results for your search.'}</td></tr>`; return; }
-      filteredData.forEach((reg, index) => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${index + 1}</td><td>${escapeHtml(reg.name)}</td><td>${escapeHtml(reg.email)}<br><small>${escapeHtml(reg.contact)}</small></td><td>${escapeHtml(reg.college)}</td><td>${new Date(reg.registeredAt).toLocaleString()}</td><td><button class="btn btn-sm btn-secondary view-details" data-key="${reg.key}">Details</button> <button class="btn btn-sm btn-delete" data-key="${reg.key}">Delete</button></td>`;
-        tableBody.appendChild(tr);
-      });
-    }
+        <!-- ======================= SCREENSHOTS SECTION ======================== -->
+        <section id="screenshots">
+             <div class="angled-divider top-angle"></div>
+            <div class="container">
+                 <h2 class="animate-on-scroll" data-lang-key="screenshots_title">In-Game Action</h2>
+                 <div class="screenshots-grid">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg_VUTrEDhUrWKqNSiRNwW72k2x1Ur0dWZuAlSfgGI5_N-FFeEUMlUQehsiEmduYVIswSJPMnUWF2FBnDFqUiEilQ9blqc-fabr9IkKnC1VAYU8mYeapQsM4daHtmk_cgPWvceFb5RPh39Z-H3wvl6xASphkSlVsbwiAc2Q5k2-LGsMpOiPiDsw1_oRjV9J/s1544/Screenshot_20251112_223803.jpg" alt="Leaderboard" class="animate-on-scroll">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEihSdqiM3S7PBpqtGOZs7qP7M2nFUlXkZvLo-zQNjbxqJ5nWUTpbi3RDE5oSMm6vY9lR7aqPlL4mM9wDPaxzJJmpUf6CP7MD8ROSt3VxE5QgUQVitPpO18g0yLJncG_uJBt0j9Rjyui-RuQNenuvbp1cBqGYBUcKepD97lCaVCOg_V-zvAajB2olNPsdkPQ/s1544/Screenshot_20251112_223757.jpg" alt="Settings" class="animate-on-scroll" style="transition-delay: 0.2s;">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhBmusBVUwByftWsNTwNM6Rz_TXFjKYfD_wT2_oiIlg-MkRrAWwpf-l_MXZfneXO5wTjI8wm0WQwTcp8SYOS7GmZzB-Ant0AR8s5bMLhfdUswvh7jH9dtVVmepZ7xl4SvwJRpH2pyKzRhzQdww1jcfp8qbm4IQkSfGtRHKKMj1JIqE_hdN_FaIwPApcpR5h/s812/IMG_20251113_092943.jpg" alt="Share Feature" class="animate-on-scroll" style="transition-delay: 0.4s;">
+                 </div>
+            </div>
+        </section>
+    </main>
     
-    tableBody.addEventListener('click', e => { /* Handles clicks on Details and Delete buttons */
-      const key = e.target.dataset.key, targetClass = e.target.classList;
-      if (!key) return;
-      const reg = allRegistrations.find(r => r.key === key);
-      if (!reg) return;
-      if (targetClass.contains('view-details')) showDetailsModal(reg);
-      if (targetClass.contains('btn-delete')) {
-        if (confirm(`Are you sure you want to delete the registration for "${reg.name}"?`)) {
-          db.ref(`${DB_PATH}/${key}`).remove().then(() => alert('Registration deleted.')).catch(err => alert('Error: ' + err.message));
-        }
-      }
-    });
+    <!-- ======================= FOOTER ======================== -->
+    <footer class="footer">
+        <div class="container">
+            <h2 class="animate-on-scroll" data-lang-key="footer_title">The Race Awaits.</h2>
+            <a href="https://surl.li/ydvphy" class="cta-button animate-on-scroll">
+                <i class="fas fa-download"></i>
+                <span data-lang-key="footer_cta">Get Fast Lane Racing</span>
+            </a>
+            <p class="animate-on-scroll" data-lang-key="footer_copy">&copy; 2025 Fast Lane Racing. All Rights Reserved.</p>
+        </div>
+    </footer>
 
-    function showDetailsModal(reg) { /* Builds and shows the beautiful modal */
-        modalName.textContent = `Details for ${reg.name}`;
-        modalBody.innerHTML = `
-            ${createDetailRow('<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>', 'Name', reg.name)}
-            ${createDetailRow('<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>', 'Email', reg.email)}
-            ${createDetailRow('<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>', 'Contact', reg.contact)}
-            ${createDetailRow('<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" /></svg>', 'College', reg.college)}
-            ${createDetailRow('<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0l-.07.002z" /></svg>', 'Stream', reg.stream)}
-            ${createDetailRow('<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0h18" /></svg>', 'DOB', reg.dob)}
-            ${createDetailRow('<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>', 'Address', reg.address)}
-            ${createDetailRow('<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" /></svg>', 'Questions', reg.questions)}
-        `;
-        detailsModal.style.display = 'block';
-    }
+    <!-- JavaScript for Animations and Language Switching -->
+    <script>
+        // --- SCROLL ANIMATION LOGIC ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+        const animatedElements = document.querySelectorAll('.animate-on-scroll');
+        animatedElements.forEach((el) => observer.observe(el));
 
-    modalBody.addEventListener('click', e => { /* Handles copy button clicks */
-        const copyBtn = e.target.closest('.copy-btn');
-        if (copyBtn) {
-            const textToCopy = copyBtn.dataset.copyText;
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                const tooltip = copyBtn.querySelector('.copy-tooltip');
-                tooltip.classList.add('show');
-                setTimeout(() => tooltip.classList.remove('show'), 1500);
-            }).catch(err => console.error('Copy failed:', err));
-        }
-    });
+        // --- LANGUAGE SWITCHING LOGIC ---
+        const translations = {
+            en: {
+                hero_title: "DOMINATE THE STREETS",
+                hero_subtitle: "Pure Adrenaline. Endless Traffic. One Goal: Survive. Can you handle the speed?",
+                hero_cta: "DOWNLOAD & RACE NOW",
+                install_title: "Secure & Simple Installation",
+                install_why_title: "Why This Security Warning?",
+                install_why_desc: "Your phone's security (Google Play Protect) shows this prompt for any new app from outside the Play Store. It's a standard check. <strong>This does NOT mean the app is unsafe.</strong> We guarantee it is 100% secure.",
+                install_step1_title: "<i class='fas fa-search'></i> STEP 1: SCAN",
+                install_step1_desc: "This is a standard security check. Tap <strong>\"Scan app\"</strong> to begin.",
+                install_step2_title: "<i class='fas fa-cog fa-spin'></i> STEP 2: VERIFY",
+                install_step2_desc: "Play Protect will quickly verify the file. This just takes a moment.",
+                install_step3_title: "<i class='fas fa-flag-checkered'></i> STEP 3: RACE!",
+                install_step3_desc: "Tap <strong>\"Install anyway\"</strong> to finish. That's it! You're ready to burn rubber.",
+                features_title: "Engineered for Thrills",
+                feature1_title: "GLOBAL LEADERBOARDS",
+                feature1_desc: "Go head-to-head with players worldwide. Only the best will reach the top.",
+                feature2_title: "INTUITIVE CONTROLS",
+                feature2_desc: "Easy to learn, impossible to master. Responsive swipe controls for high-speed action.",
+                feature3_title: "CHALLENGE YOUR CREW",
+                feature3_desc: "Share your epic scores and challenge your friends to see who truly owns the road.",
+                screenshots_title: "In-Game Action",
+                footer_title: "The Race Awaits.",
+                footer_cta: "Get Fast Lane Racing",
+                footer_copy: "&copy; 2025 Fast Lane Racing. All Rights Reserved."
+            },
+            hi: {
+                hero_title: "सड़कों पर राज करो",
+                hero_subtitle: "शुद्ध एड्रेनालाईन। अंतहीन ट्रैफिक। एक लक्ष्य: जीवित रहना। क्या आप इस गति को संभाल सकते हैं?",
+                hero_cta: "डाउनलोड करें और रेस करें",
+                install_title: "सुरक्षित और सरल इंस्टॉलेशन",
+                install_why_title: "यह सुरक्षा चेतावनी क्यों?",
+                install_why_desc: "आपके फ़ोन की सुरक्षा (Google Play Protect) प्ले स्टोर के बाहर से किसी भी नए ऐप के लिए यह चेतावनी दिखाती है। यह एक मानक जांच है। <strong>इसका मतलब यह नहीं है कि ऐप असुरक्षित है।</strong> हम गारंटी देते हैं कि यह 100% सुरक्षित है।",
+                install_step1_title: "<i class='fas fa-search'></i> चरण 1: स्कैन करें",
+                install_step1_desc: "यह एक मानक सुरक्षा जांच है। शुरू करने के लिए <strong>\"Scan app\"</strong> पर टैप करें।",
+                install_step2_title: "<i class='fas fa-cog fa-spin'></i> चरण 2: सत्यापित करें",
+                install_step2_desc: "प्ले प्रोटेक्ट फ़ाइल को जल्दी से सत्यापित करेगा। इसमें बस कुछ पल लगते हैं।",
+                install_step3_title: "<i class='fas fa-flag-checkered'></i> चरण 3: रेस करें!",
+                install_step3_desc: "समाप्त करने के लिए <strong>\"Install anyway\"</strong> पर टैप करें। हो गया! अब आप रेस के लिए तैयार हैं।",
+                features_title: "रोमांच के लिए बनाया गया",
+                feature1_title: "ग्लोबल लीडरबोर्ड",
+                feature1_desc: "दुनिया भर के खिलाड़ियों के साथ मुकाबला करें। केवल सर्वश्रेष्ठ ही शीर्ष पर पहुंचेंगे।",
+                feature2_title: "सहज नियंत्रण",
+                feature2_desc: "सीखना आसान है, महारत हासिल करना असंभव। हाई-स्पीड एक्शन के लिए उत्तरदायी स्वाइप नियंत्रण।",
+                feature3_title: "दोस्तों को चुनौती दें",
+                feature3_desc: "अपने शानदार स्कोर साझा करें और अपने दोस्तों को चुनौती दें कि असली सड़क का मालिक कौन है।",
+                screenshots_title: "गेम के अंदर का एक्शन",
+                footer_title: "रेस इंतजार कर रही है।",
+                footer_cta: "फास्ट लेन रेसिंग प्राप्त करें",
+                footer_copy: "&copy; 2025 फास्ट लेन रेसिंग। सर्वाधिकार सुरक्षित।"
+            }
+        };
 
-    closeModalBtn.onclick = () => detailsModal.style.display = "none";
-    window.onclick = (e) => { if (e.target == detailsModal) detailsModal.style.display = "none"; }
-    
-    // --- Helper Functions ---
-    function createDetailRow(icon, label, value) {
-      const val = value || 'N/A';
-      return `
-        <div class="detail-row">
-            <div class="detail-icon">${icon}</div>
-            <div class="detail-info"><strong>${label}</strong><span>${escapeHtml(val)}</span></div>
-            <button class="copy-btn" data-copy-text="${escapeHtml(val)}">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375V17.25m0 0A2.25 2.25 0 0018.75 15H12a2.25 2.25 0 00-2.25 2.25m-3-6l3-3m0 0l3 3m-3-3v12.75" /></svg>
-                <span class="copy-tooltip">Copied!</span>
-            </button>
-        </div>`;
-    }
-    document.getElementById('exportBtn').addEventListener('click', () => { /* Handles CSV Export */
-        if (allRegistrations.length === 0) return alert('No data to export.');
-        const headers = ['Name','Email','Contact','College','Stream','DOB','Address','Questions','RegisteredAt'];
-        const csvContent = [headers.join(','), ...allRegistrations.map(r => headers.map(h => JSON.stringify(r[h.toLowerCase()] || ''))).join('\n')].join('\n');
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(new Blob([csvContent], { type: 'text/csv;charset=utf-8;' }));
-        link.download = 'utsah-registrations.csv';
-        link.click();
-    });
-    function escapeHtml(str) { return String(str || '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#039;'}[m])); }
-    searchInput.addEventListener('input', renderTable);
-  </script>
+        const btnEn = document.getElementById('btn-en');
+        const btnHi = document.getElementById('btn-hi');
+        
+        const switchLanguage = (lang) => {
+            document.querySelectorAll('[data-lang-key]').forEach(el => {
+                const key = el.getAttribute('data-lang-key');
+                el.innerHTML = translations[lang][key];
+            });
+            if (lang === 'hi') {
+                btnHi.classList.add('active');
+                btnEn.classList.remove('active');
+            } else {
+                btnEn.classList.add('active');
+                btnHi.classList.remove('active');
+            }
+        };
+
+        btnEn.addEventListener('click', () => switchLanguage('en'));
+        btnHi.addEventListener('click', () => switchLanguage('hi'));
+        
+        // Set default language on page load
+        switchLanguage('en');
+
+    </script>
 </body>
 </html>
