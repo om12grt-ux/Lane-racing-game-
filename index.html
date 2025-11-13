@@ -2,295 +2,259 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Fast Lane Racing - Dominate the Streets</title>
-    <!-- Google Fonts for Racing Style -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Race Rally - Dominate the Streets</title>
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+
+    <!-- ======================= CSS STYLES ======================== -->
     <style>
         :root {
-            --dark-bg: #1a1a1a;
+            --dark-bg: #121212;
             --primary-accent: #00ff7f;
             --secondary-accent: #ff4500;
-            --light-gray: #2b2b2b;
+            --light-gray: #1e1e1e;
             --text-color: #e0e0e0;
             --heading-font: 'Roboto Condensed', sans-serif;
             --body-font: 'Roboto', sans-serif;
         }
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
-        body { font-family: var(--body-font); background-color: var(--dark-bg); color: var(--text-color); line-height: 1.7; }
+        body { font-family: var(--body-font); background-color: var(--dark-bg); color: var(--text-color); line-height: 1.7; overflow-x: hidden; cursor: none; }
         .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
         h1, h2, h3 { font-family: var(--heading-font); color: #fff; text-transform: uppercase; letter-spacing: 1.5px; }
         h2 { text-align: center; font-size: 3em; margin-bottom: 60px; position: relative; }
-        h2::after { content: ''; width: 100px; height: 5px; background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent)); position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); border-radius: 5px; }
-        section { padding: 80px 0; position: relative; }
-        .angled-divider { position: absolute; width: 100%; height: 100px; background: var(--dark-bg); clip-path: polygon(0 0, 100% 100%, 0 100%); }
-        .top-angle { top: -1px; transform: rotate(180deg); }
-        .bottom-angle { bottom: -1px; }
+        h2::after { content: ''; width: 100px; height: 5px; background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent), var(--primary-accent)); background-size: 200% 100%; position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); border-radius: 5px; animation: gradient-animation 4s linear infinite; }
+        @keyframes gradient-animation { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        section { padding: 100px 0; position: relative; }
 
-        /* --- LANGUAGE SWITCHER --- */
-        .lang-switcher { position: fixed; top: 20px; right: 20px; z-index: 1000; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); border-radius: 50px; display: flex; gap: 5px; padding: 5px; border: 1px solid #444;}
-        .lang-switcher button { background: transparent; color: #fff; border: none; padding: 10px 15px; font-family: var(--heading-font); font-size: 1em; cursor: pointer; border-radius: 50px; transition: background-color 0.3s ease; }
+        .cursor { width: 25px; height: 25px; border: 2px solid var(--primary-accent); border-radius: 50%; position: fixed; transform: translate(-50%, -50%); pointer-events: none; z-index: 9999; transition: width 0.2s, height 0.2s, background-color 0.2s, transform 0.2s; }
+        .cursor-dot { width: 5px; height: 5px; background-color: var(--primary-accent); border-radius: 50%; position: fixed; transform: translate(-50%, -50%); pointer-events: none; z-index: 9999; }
+        a:hover ~ .cursor, button:hover ~ .cursor { transform: translate(-50%, -50%) scale(1.5); background-color: rgba(0, 255, 127, 0.2); }
+        
+        .lang-switcher { position: fixed; top: 20px; right: 20px; z-index: 1000; background: rgba(26, 26, 26, 0.7); backdrop-filter: blur(10px); border-radius: 50px; display: flex; gap: 5px; padding: 5px; border: 1px solid #444; align-items: center; }
+        .lang-switcher .fa-globe { color: var(--primary-accent); padding-left: 10px; }
+        .lang-switcher button { background: transparent; color: #fff; border: none; padding: 10px 15px; font-family: var(--heading-font); font-size: 1em; cursor: none; border-radius: 50px; transition: background-color 0.3s ease, color 0.3s ease; }
         .lang-switcher button.active { background-color: var(--primary-accent); color: var(--dark-bg); }
-        .lang-switcher .icon { color: var(--primary-accent); padding-right: 5px; }
 
-        /* --- HERO SECTION --- */
-        .hero { background-image: linear-gradient(rgba(26, 26, 26, 0.8), rgba(26, 26, 26, 1)), url('images/hero-bg.jpg'); background-size: cover; background-position: center; padding: 100px 0; text-align: center; }
-        .hero .logo { width: 250px; max-width: 80%; height: auto; margin-bottom: 20px; }
-        .hero h1 { font-size: clamp(2.5em, 8vw, 4.5em); color: #fff; text-shadow: 0 0 15px var(--primary-accent); }
-        .hero p { font-size: 1.4em; margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto; color: #ccc; }
-        .cta-button { display: inline-flex; align-items: center; gap: 15px; background: linear-gradient(45deg, var(--secondary-accent), #ff6a33); color: #fff; padding: 20px 45px; font-size: 1.5em; font-weight: bold; font-family: var(--heading-font); text-decoration: none; border-radius: 50px; transition: all 0.3s ease; box-shadow: 0 0 20px rgba(255, 69, 0, 0.6); text-transform: uppercase; }
-        .cta-button:hover { transform: scale(1.05) translateY(-5px); box-shadow: 0 0 35px rgba(255, 69, 0, 0.8); }
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; overflow: hidden; }
+        #video-bg { position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; width: auto; height: auto; transform: translateX(-50%) translateY(-50%); z-index: -2; object-fit: cover; }
+        .hero::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(18, 18, 18, 0.8); z-index: -1; }
+        .hero-content { z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .hero .logo { width: 300px; max-width: 80%; height: auto; margin-bottom: 25px; }
+        .hero h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); color: #fff; text-shadow: 0 0 20px var(--primary-accent); margin-bottom: 20px; line-height: 1.2; min-height: 1.2em; }
+        #hero-title::after { content: '|'; animation: blink 0.7s infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
+        .hero p { font-size: 1.4em; margin-bottom: 40px; max-width: 600px; color: #ccc; }
+        .hero-buttons { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+        .cta-button, .trailer-button { display: inline-flex; align-items: center; gap: 15px; padding: 20px 45px; font-size: 1.5em; font-weight: bold; font-family: var(--heading-font); text-decoration: none; border-radius: 50px; transition: all 0.4s ease; text-transform: uppercase; border: none; cursor: none; }
+        .cta-button { background: linear-gradient(45deg, var(--secondary-accent), #ff6a33, var(--secondary-accent)); background-size: 200% 100%; color: #fff; box-shadow: 0 0 25px rgba(255, 69, 0, 0.6); animation: gradient-animation 4s linear infinite, pulse 2s infinite; }
+        .trailer-button { background: transparent; border: 3px solid var(--primary-accent); color: var(--primary-accent); }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        .cta-button:hover, .trailer-button:hover { transform: scale(1.1) translateY(-5px) !important; animation-play-state: paused; }
+        .trailer-button:hover { background: var(--primary-accent); color: var(--dark-bg); }
 
-        /* --- FULLY RESPONSIVE IMAGE STYLES --- */
-        img {
-            max-width: 100%; /* Ensures image is never wider than its container */
-            height: auto; /* Maintains aspect ratio */
-            display: block; /* Removes bottom space under image */
-            border-radius: 12px; /* Consistent rounded corners */
-        }
+        .grid-image { width: 100%; aspect-ratio: 9 / 16; object-fit: cover; object-position: top center; border-radius: 12px; border: 3px solid #444; box-shadow: 0 5px 15px rgba(0,0,0,0.3); margin-top: 20px; transition: transform 0.3s ease; }
+        .grid-image:hover { transform: scale(1.05); }
 
-        .step-card img, .screenshots-grid img {
-            border: 3px solid #444;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            margin-top: 20px;
-            width: 100%; /* Make image take full width of its card */
-            height: 450px; /* Give a fixed height for consistency on larger screens */
-            object-fit: cover; /* This is the magic! Fits image without stretching */
-            object-position: top center; /* Focus on the top part of the image when cropping */
-        }
-        
-        @media (max-width: 768px) {
-             .step-card img, .screenshots-grid img {
-                height: 400px; /* Adjust height for smaller screens */
-             }
-        }
+        .tilt-card { transform-style: preserve-3d; transition: transform 0.1s; }
+        .step-card, .feature-card, .testimonial-card { background: var(--dark-bg); padding: 30px; border-radius: 15px; border-top: 5px solid var(--primary-accent); text-align: center; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .step-card:hover, .feature-card:hover, .testimonial-card:hover { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); }
+        .installation-grid, .features-grid, .testimonials-grid { display: grid; gap: 40px; }
+        .installation-grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+        .features-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+        .feature-card { border-top-color: var(--secondary-accent); }
 
-        /* --- INSTALLATION GUIDE --- */
-        #installation { background-color: var(--light-gray); }
-        .installation-intro { text-align: center; max-width: 800px; margin: 0 auto 60px auto; }
-        .installation-intro .icon { font-size: 4em; color: var(--primary-accent); margin-bottom: 20px; }
-        .installation-intro h3 { font-size: 2em; margin-bottom: 15px; }
-        .installation-intro p { font-size: 1.1em; color: #ccc; }
-        .installation-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; align-items: flex-start; }
-        .step-card { background: var(--dark-bg); padding: 30px; border-radius: 15px; text-align: center; border-top: 5px solid var(--primary-accent); }
-        .step-card h3 { color: var(--primary-accent); font-size: 1.8em; margin-bottom: 15px; }
-        
-        /* --- OTHER SECTIONS (Features, Screenshots, Footer) --- */
-        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-        .feature-card { background-color: var(--light-gray); padding: 30px; border-radius: 15px; transition: transform 0.3s ease, box-shadow 0.3s ease; text-align: center; }
-        .feature-card:hover { transform: translateY(-10px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); }
-        .feature-card .icon { font-size: 3.5em; color: var(--primary-accent); text-shadow: 0 0 10px var(--primary-accent); }
-        .feature-card h3 { font-size: 1.5em; margin-top: 20px; margin-bottom: 10px; }
+        #testimonials { background-color: var(--light-gray); }
+        .testimonials-grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+        .testimonial-card { border-top: none; border-left: 5px solid var(--primary-accent); text-align: left; }
+        .testimonial-card p { font-style: italic; color: #ccc; margin-bottom: 20px; }
+        .testimonial-card .author { font-weight: bold; color: var(--primary-accent); text-align: right; }
+        .author::before { content: '— '; }
+
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10000; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
+        .modal.show { opacity: 1; pointer-events: all; }
+        .modal .modal-content { position: relative; width: 90%; max-width: 960px; background-color: var(--light-gray); border-radius: 15px; padding: 40px; text-align: center; transform: scale(0.9); transition: transform 0.4s ease; }
+        .modal.show .modal-content { transform: scale(1); }
+        #trailer-modal .modal-content { background: none; padding: 0; }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 3px solid var(--primary-accent); border-radius: 15px; }
+        .close-modal-btn { position: absolute; top: 15px; right: 20px; font-size: 2.5em; color: #fff; cursor: none; transition: transform 0.3s ease; line-height: 1; }
+        .close-modal-btn:hover { transform: scale(1.2) rotate(90deg); color: var(--primary-accent); }
+        #trailer-modal .close-modal-btn { top: -45px; right: 0; }
+
         #screenshots { background-color: var(--light-gray); }
         .screenshots-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
-        .screenshots-grid img { transition: transform 0.3s ease; }
-        .screenshots-grid img:hover { transform: scale(1.05); }
         .footer { text-align: center; padding: 60px 20px; }
-        .footer h2 { font-size: 2.5em; }
-        .footer p { margin-top: 30px; color: #aaa; }
+        .footer .cta-button { margin-top: 30px; }
+        .footer p { margin-top: 40px; color: #aaa; }
+        /* Style for the developer credit */
+        .developer-credit { color: #888; margin-top: 20px; font-size: 0.9em; }
+        .developer-credit .fa-heart { color: var(--primary-accent); }
         
-        /* --- ANIMATIONS --- */
-        .animate-on-scroll { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+        .animate-on-scroll { opacity: 0; transform: translateY(40px); transition: opacity 0.6s ease-out, transform 0.8s ease-out; }
         .animate-on-scroll.visible { opacity: 1; transform: translateY(0); }
     </style>
 </head>
 <body>
 
-    <!-- ======================= LANGUAGE SWITCHER ======================== -->
+    <div class="cursor"></div>
+    <div class="cursor-dot"></div>
+
     <div class="lang-switcher">
-        <span class="icon"><i class="fas fa-globe"></i></span>
-        <button id="btn-en" class="active">EN</button>
-        <button id="btn-hi">HI</button>
+        <i class="fas fa-globe"></i>
+        <button id="btn-en" class="active" aria-label="Switch to English">EN</button>
+        <button id="btn-hi" aria-label="Switch to Hindi">HI</button>
     </div>
 
     <main>
-        <!-- ======================= HERO SECTION ======================== -->
         <section class="hero">
-            <div class="container animate-on-scroll">
-                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjM_qDEwdrztIFK_UF7KhR-6RVccLl1rexxo2MWxjNZtvxqi2l-Z4UtfH5KdO69vmGi8FyqSVy4B2fmWD15RCcR4Fn4nR6OGbzemnDzwGHOsgXw2d-FgfkdEzyVXI5cx7qkLU1mDaqlvZMaGA3EmdJFUHusol6Zmi8iFuZ5X5mlQy_CoIO4AhAVkYq-2vdh/s500/logo.png.png" alt="Fast Lane Racing Logo" class="logo">
-                <h1 data-lang-key="hero_title">DOMINATE THE STREETS</h1>
+            <video autoplay muted loop playsinline id="video-bg">
+                <source src="https://od.lk/s/OTRfMTEyMzE1ODA4Xw/Play.mp4" type="video/mp4">
+            </video>
+            <div class="hero-content container animate-on-scroll">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjM_qDEwdrztIFK_UF7KhR-6RVccLl1rexxo2MWxjNZtvxqi2l-Z4UtfH5KdO69vmGi8FyqSVy4B2fmWD15RCcR4Fn4nR6OGbzemnDzwGHOsgXw2d-FgfkdEzyVXI5cx7qkLU1mDaqlvZMaGA3EmdJFUHusol6Zmi8iFuZ5X5mlQy_CoIO4AhAVkYq-2vdh/s500/logo.png.png" alt="Race Rally Logo" class="logo" loading="lazy">
+                <h1 id="hero-title" data-lang-key="hero_title"></h1>
                 <p data-lang-key="hero_subtitle">Pure Adrenaline. Endless Traffic. One Goal: Survive. Can you handle the speed?</p>
-                <a href="https://surl.li/ydvphy" class="cta-button">
-                    <i class="fas fa-bolt"></i>
-                    <span data-lang-key="hero_cta">DOWNLOAD & RACE NOW</span>
-                </a>
+                <div class="hero-buttons">
+                    <a href="https://surl.li/ydvphy" class="cta-button"><i class="fas fa-bolt"></i> <span data-lang-key="hero_cta">DOWNLOAD & RACE NOW</span></a>
+                    <button class="trailer-button" id="open-trailer-btn"><i class="fas fa-play"></i> <span data-lang-key="hero_trailer_btn">WATCH TRAILER</span></button>
+                </div>
             </div>
         </section>
 
-        <!-- ======================= INSTALLATION SECTION ======================== -->
         <section id="installation">
-            <div class="angled-divider top-angle"></div>
             <div class="container">
                 <h2 class="animate-on-scroll" data-lang-key="install_title">Secure & Simple Installation</h2>
-                <div class="installation-intro animate-on-scroll">
-                    <div class="icon"><i class="fas fa-shield-halved"></i></div>
-                    <h3 data-lang-key="install_why_title">Why This Security Warning?</h3>
-                    <p data-lang-key="install_why_desc">Your phone's security (Google Play Protect) shows this prompt for any new app from outside the Play Store. It's a standard check. <strong>This does NOT mean the app is unsafe.</strong> We guarantee it is 100% secure.</p>
-                </div>
                 <div class="installation-grid">
-                    <div class="step-card animate-on-scroll" style="transition-delay: 0.2s;">
+                    <div class="step-card tilt-card animate-on-scroll" style="transition-delay: 0.2s;">
                         <h3 data-lang-key="install_step1_title"><i class="fas fa-search"></i> STEP 1: SCAN</h3>
                         <p data-lang-key="install_step1_desc">This is a standard security check. Tap <strong>"Scan app"</strong> to begin.</p>
-                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgw9Tz-z85kXRRAu38aRk1UrCJmZhpLbllH_QLPhAjfAbulEnCcdF1PZkARSm1thk6PjE71yPq2Bt1MH_MfhfWM232fO29s8reFlfe7egU3XqMcs9YEYMmq5oVDSJ6ve73znYnjKIrdMGW8E4agal4Hjw7WFcS6o4n72zhhm5YWQ0YACcZ9L-ebSeXGBHy1/s1544/Screenshot_20251112_152459.jpg" alt="Installation Step 1">
+                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgw9Tz-z85kXRRAu38aRk1UrCJmZhpLbllH_QLPhAjfAbulEnCcdF1PZkARSm1thk6PjE71yPq2Bt1MH_MfhfWM232fO29s8reFlfe7egU3XqMcs9YEYMmq5oVDSJ6ve73znYnjKIrdMGW8E4agal4Hjw7WFcS6o4n72zhhm5YWQ0YACcZ9L-ebSeXGBHy1/s1544/Screenshot_20251112_152459.jpg" alt="Installation Step 1" class="grid-image" loading="lazy">
                     </div>
-                    <div class="step-card animate-on-scroll" style="transition-delay: 0.4s;">
+                    <div class="step-card tilt-card animate-on-scroll" style="transition-delay: 0.4s;">
                         <h3 data-lang-key="install_step2_title"><i class="fas fa-cog fa-spin"></i> STEP 2: VERIFY</h3>
                         <p data-lang-key="install_step2_desc">Play Protect will quickly verify the file. This just takes a moment.</p>
-                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhoaTluksS9xJcvd2VO4sXAJ0NldPrLPUnnVSLOCC2ey1rZDBXW6yVCH66lXsJSbbDb_fXjVCx7a1RaKH2QTJKNbC0VDB4p_YTl-R2s_O1hJ9odn_0qq-iJgtv9QEzY_Ip4WwWfe5f1XuxJivX_ib5JyFQWE08wo2NfWsvOTBLBFahbPurcKReMh1a1yu0c/s1544/Screenshot_20251112_152510.jpg" alt="Installation Step 2">
+                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhoaTluksS9xJcvd2VO4sXAJ0NldPrLPUnnVSLOCC2ey1rZDBXW6yVCH66lXsJSbbDb_fXjVCx7a1RaKH2QTJKNbC0VDB4p_YTl-R2s_O1hJ9odn_0qq-iJgtv9QEzY_Ip4WwWfe5f1XuxJivX_ib5JyFQWE08wo2NfWsvOTBLBFahbPurcKReMh1a1yu0c/s1544/Screenshot_20251112_152510.jpg" alt="Installation Step 2" class="grid-image" loading="lazy">
                     </div>
-                    <div class="step-card animate-on-scroll" style="transition-delay: 0.6s;">
+                    <div class="step-card tilt-card animate-on-scroll" style="transition-delay: 0.6s;">
                         <h3 data-lang-key="install_step3_title"><i class="fas fa-flag-checkered"></i> STEP 3: RACE!</h3>
                         <p data-lang-key="install_step3_desc">Tap <strong>"Install anyway"</strong> to finish. That's it! You're ready to burn rubber.</p>
-                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh-0vWYKGQ8zuZFroh5aE8fUWF4895MHC0rwDf6U4daDVR9X5nYyErUWAMv1nL0N88agwsMH9QFa-xykPTcoZsko7MkG0jPFT1w3271g9ABVaieDqpIP0lF3zD6fbrFu_Xo-M2Mb-r7dLBBMfVJM8qp_FnqtekyTqCJ00YfCWfIeyW2zKACRMOVCoui8i-Z/s1544/Screenshot_20251113_114115.jpg" alt="Game Main Menu">
+                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh-0vWYKGQ8zuZFroh5aE8fUWF4895MHC0rwDf6U4daDVR9X5nYyErUWAMv1nL0N88agwsMH9QFa-xykPTcoZsko7MkG0jPFT1w3271g9ABVaieDqpIP0lF3zD6fbrFu_Xo-M2Mb-r7dLBBMfVJM8qp_FnqtekyTqCJ00YfCWfIeyW2zKACRMOVCoui8i-Z/s1544/Screenshot_20251113_114115.jpg" alt="Game Main Menu" class="grid-image" loading="lazy">
                     </div>
                 </div>
             </div>
-            <div class="angled-divider bottom-angle"></div>
         </section>
 
-        <!-- ======================= FEATURES SECTION ======================== -->
         <section id="features" class="container">
             <h2 class="animate-on-scroll" data-lang-key="features_title">Engineered for Thrills</h2>
             <div class="features-grid">
-                <div class="feature-card animate-on-scroll">
-                    <div class="icon"><i class="fas fa-trophy"></i></div>
-                    <h3 data-lang-key="feature1_title">GLOBAL LEADERBOARDS</h3>
-                    <p data-lang-key="feature1_desc">Go head-to-head with players worldwide. Only the best will reach the top.</p>
-                </div>
-                <div class="feature-card animate-on-scroll" style="transition-delay: 0.2s;">
-                    <div class="icon"><i class="fas fa-gamepad"></i></div>
-                    <h3 data-lang-key="feature2_title">INTUITIVE CONTROLS</h3>
-                    <p data-lang-key="feature2_desc">Easy to learn, impossible to master. Responsive swipe controls for high-speed action.</p>
-                </div>
-                <div class="feature-card animate-on-scroll" style="transition-delay: 0.4s;">
-                    <div class="icon"><i class="fas fa-share-alt"></i></div>
-                    <h3 data-lang-key="feature3_title">CHALLENGE YOUR CREW</h3>
-                    <p data-lang-key="feature3_desc">Share your epic scores and challenge your friends to see who truly owns the road.</p>
+                <div class="feature-card tilt-card animate-on-scroll"><div class="icon"><i class="fas fa-trophy"></i></div><h3 data-lang-key="feature1_title">GLOBAL LEADERBOARDS</h3><p data-lang-key="feature1_desc">Go head-to-head with players worldwide. Only the best will reach the top.</p></div>
+                <div class="feature-card tilt-card animate-on-scroll" style="transition-delay: 0.2s;"><div class="icon"><i class="fas fa-gamepad"></i></div><h3 data-lang-key="feature2_title">INTUITIVE CONTROLS</h3><p data-lang-key="feature2_desc">Easy to learn, impossible to master. Responsive swipe controls for high-speed action.</p></div>
+                <div class="feature-card tilt-card animate-on-scroll" style="transition-delay: 0.4s;"><div class="icon"><i class="fas fa-share-alt"></i></div><h3 data-lang-key="feature3_title">CHALLENGE YOUR CREW</h3><p data-lang-key="feature3_desc">Share your epic scores and challenge your friends to see who truly owns the road.</p></div>
+            </div>
+        </section>
+        
+        <section id="testimonials">
+            <div class="container">
+                <h2 class="animate-on-scroll" data-lang-key="testimonials_title">What Players Are Saying</h2>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card tilt-card animate-on-scroll"><p data-lang-key="testimonial1_text">"Absolutely addictive! The controls are super smooth and the graphics are stunning. Can't put it down."</p><div class="author" data-lang-key="testimonial1_author">Racer_X</div></div>
+                    <div class="testimonial-card tilt-card animate-on-scroll" style="transition-delay: 0.2s;"><p data-lang-key="testimonial2_text">"Best traffic racer game I've played on mobile. The sense of speed is insane! Highly recommend."</p><div class="author" data-lang-key="testimonial2_author">SpeedDemon22</div></div>
+                    <div class="testimonial-card tilt-card animate-on-scroll" style="transition-delay: 0.4s;"><p data-lang-key="testimonial3_text">"Challenging my friends on the leaderboard is my new favorite thing. So competitive and fun!"</p><div class="author" data-lang-key="testimonial3_author">AsphaltQueen</div></div>
                 </div>
             </div>
         </section>
 
-        <!-- ======================= SCREENSHOTS SECTION ======================== -->
         <section id="screenshots">
-             <div class="angled-divider top-angle"></div>
-            <div class="container">
+             <div class="container">
                  <h2 class="animate-on-scroll" data-lang-key="screenshots_title">In-Game Action</h2>
                  <div class="screenshots-grid">
-                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg_VUTrEDhUrWKqNSiRNwW72k2x1Ur0dWZuAlSfgGI5_N-FFeEUMlUQehsiEmduYVIswSJPMnUWF2FBnDFqUiEilQ9blqc-fabr9IkKnC1VAYU8mYeapQsM4daHtmk_cgPWvceFb5RPh39Z-H3wvl6xASphkSlVsbwiAc2Q5k2-LGsMpOiPiDsw1_oRjV9J/s1544/Screenshot_20251112_223803.jpg" alt="Leaderboard" class="animate-on-scroll">
-                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEihSdqiM3S7PBpqtGOZs7qP7M2nFUlXkZvLo-zQNjbxqJ5nWUTpbi3RDE5oSMm6vY9lR7aqPlL4mM9wDPaxzJJmpUf6CP7MD8ROSt3VxE5QgUQVitPpO18g0yLJncG_uJBt0j9Rjyui-RuQNenuvbp1cBqGYBUcKepD97lCaVCOg_V-zvAajB2olNPsdkPQ/s1544/Screenshot_20251112_223757.jpg" alt="Settings" class="animate-on-scroll" style="transition-delay: 0.2s;">
-                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhBmusBVUwByftWsNTwNM6Rz_TXFjKYfD_wT2_oiIlg-MkRrAWwpf-l_MXZfneXO5wTjI8wm0WQwTcp8SYOS7GmZzB-Ant0AR8s5bMLhfdUswvh7jH9dtVVmepZ7xl4SvwJRpH2pyKzRhzQdww1jcfp8qbm4IQkSfGtRHKKMj1JIqE_hdN_FaIwPApcpR5h/s812/IMG_20251113_092943.jpg" alt="Share Feature" class="animate-on-scroll" style="transition-delay: 0.4s;">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg_VUTrEDhUrWKqNSiRNwW72k2x1Ur0dWZuAlSfgGI5_N-FFeEUMlUQehsiEmduYVIswSJPMnUWF2FBnDFqUiEilQ9blqc-fabr9IkKnC1VAYU8mYeapQsM4daHtmk_cgPWvceFb5RPh39Z-H3wvl6xASphkSlVsbwiAc2Q5k2-LGsMpOiPiDsw1_oRjV9J/s1544/Screenshot_20251112_223803.jpg" alt="Leaderboard" class="animate-on-scroll grid-image" loading="lazy">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEihSdqiM3S7PBpqtGOZs7qP7M2nFUlXkZvLo-zQNjbxqJ5nWUTpbi3RDE5oSMm6vY9lR7aqPlL4mM9wDPaxzJJmpUf6CP7MD8ROSt3VxE5QgUQVitPpO18g0yLJncG_uJBt0j9Rjyui-RuQNenuvbp1cBqGYBUcKepD97lCaVCOg_V-zvAajB2olNPsdkPQ/s1544/Screenshot_20251112_223757.jpg" alt="Settings" class="animate-on-scroll grid-image" style="transition-delay: 0.2s;" loading="lazy">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhBmusBVUwByftWsNTwNM6Rz_TXFjKYfD_wT2_oiIlg-MkRrAWwpf-l_MXZfneXO5wTjI8wm0WQwTcp8SYOS7GmZzB-Ant0AR8s5bMLhfdUswvh7jH9dtVVmepZ7xl4SvwJRpH2pyKzRhzQdww1jcfp8qbm4IQkSfGtRHKKMj1JIqE_hdN_FaIwPApcpR5h/s812/IMG_20251113_092943.jpg" alt="Share Feature" class="animate-on-scroll grid-image" style="transition-delay: 0.4s;" loading="lazy">
                  </div>
             </div>
         </section>
     </main>
     
-    <!-- ======================= FOOTER ======================== -->
     <footer class="footer">
         <div class="container">
             <h2 class="animate-on-scroll" data-lang-key="footer_title">The Race Awaits.</h2>
-            <a href="https://surl.li/ydvphy" class="cta-button animate-on-scroll">
-                <i class="fas fa-download"></i>
-                <span data-lang-key="footer_cta">Get Fast Lane Racing</span>
-            </a>
-            <p class="animate-on-scroll" data-lang-key="footer_copy">&copy; 2025 Fast Lane Racing. All Rights Reserved.</p>
+            <a href="https://surl.li/ydvphy" class="cta-button animate-on-scroll"><i class="fas fa-download"></i> <span data-lang-key="footer_cta">Get Race Rally</span></a>
+            <p class="animate-on-scroll" data-lang-key="footer_copy">&copy; 2025 Race Rally. All Rights Reserved.</p>
+            <!-- Developer Credit -->
+            <p class="developer-credit animate-on-scroll">Developed with <i class="fas fa-heart"></i> by Santosh Mishra</p>
         </div>
     </footer>
 
-    <!-- JavaScript for Animations and Language Switching -->
+    <div id="trailer-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal-btn"><i class="fas fa-times"></i></span>
+            <div class="video-container">
+                <!-- Bhai, yaha YouTube video ka 'Embed' link daalna. Share > Embed karke mil jayega. Direct video link yaha kaam nahi karega. -->
+                <iframe src="YOUR_YOUTUBE_EMBED_URL_HERE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <div id="coming-soon-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal-btn"><i class="fas fa-times"></i></span>
+            <h2 style="color: var(--primary-accent); font-size: 2.5em;"><i class="fas fa-hourglass-half"></i> <span data-lang-key="coming_soon_title">Coming Soon!</span></h2>
+            <p style="font-size: 1.2em; margin-top: 15px;" data-lang-key="coming_soon_text">This feature is under construction. Stay tuned for updates!</p>
+        </div>
+    </div>
+
     <script>
-        // --- SCROLL ANIMATION LOGIC ---
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
+        // ===============================================
+        // Coded with passion by Santosh Mishra 😎
+        // Project: Race Rally Landing Page
+        // Let's build something awesome!
+        // ===============================================
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Hindi aur English me content badalne ke liye
+            const translations = {
+                en: { hero_title: "DOMINATE THE STREETS", hero_subtitle: "Pure Adrenaline. Endless Traffic. One Goal: Survive. Can you handle the speed?", hero_cta: "DOWNLOAD & RACE NOW", hero_trailer_btn: "WATCH TRAILER", install_title: "Secure & Simple Installation", install_step1_title: "<i class='fas fa-search'></i> STEP 1: SCAN", install_step1_desc: "This is a standard security check. Tap <strong>\"Scan app\"</strong> to begin.", install_step2_title: "<i class='fas fa-cog fa-spin'></i> STEP 2: VERIFY", install_step2_desc: "Play Protect will quickly verify the file. This just takes a moment.", install_step3_title: "<i class='fas fa-flag-checkered'></i> STEP 3: RACE!", install_step3_desc: "Tap <strong>\"Install anyway\"</strong> to finish. That's it! You're ready to burn rubber.", features_title: "Engineered for Thrills", feature1_title: "GLOBAL LEADERBOARDS", feature1_desc: "Go head-to-head with players worldwide. Only the best will reach the top.", feature2_title: "INTUITIVE CONTROLS", feature2_desc: "Easy to learn, impossible to master. Responsive swipe controls for high-speed action.", feature3_title: "CHALLENGE YOUR CREW", feature3_desc: "Share your epic scores and challenge your friends to see who truly owns the road.", testimonials_title: "What Players Are Saying", testimonial1_text: "\"Absolutely addictive! The controls are super smooth and the graphics are stunning. Can't put it down.\"", testimonial1_author: "Racer_X", testimonial2_text: "\"Best traffic racer game I've played on mobile. The sense of speed is insane! Highly recommend.\"", testimonial2_author: "SpeedDemon22", testimonial3_text: "\"Challenging my friends on the leaderboard is my new favorite thing. So competitive and fun!\"", testimonial3_author: "AsphaltQueen", screenshots_title: "In-Game Action", footer_title: "The Race Awaits.", footer_cta: "Get Race Rally", footer_copy: "&copy; 2025 Race Rally. All Rights Reserved.", coming_soon_title: "Coming Soon!", coming_soon_text: "This feature is under construction. Stay tuned for updates!" },
+                hi: { hero_title: "सड़कों पर राज करो", hero_subtitle: "शुद्ध एड्रेनालाईन। अंतहीन ट्रैफिक। एक लक्ष्य: जीवित रहना। क्या आप इस गति को संभाल सकते हैं?", hero_cta: "डाउनलोड करें और रेस करें", hero_trailer_btn: "ट्रेलर देखें", install_title: "सुरक्षित और सरल इंस्टॉलेशन", install_step1_title: "<i class='fas fa-search'></i> चरण 1: स्कैन करें", install_step1_desc: "यह एक मानक सुरक्षा जांच है। शुरू करने के लिए <strong>\"Scan app\"</strong> पर टैप करें।", install_step2_title: "<i class='fas fa-cog fa-spin'></i> चरण 2: सत्यापित करें", install_step2_desc: "प्ले प्रोटेक्ट फ़ाइल को जल्दी से सत्यापित करेगा। इसमें बस कुछ पल लगते हैं।", install_step3_title: "<i class='fas fa-flag-checkered'></i> चरण 3: रेस करें!", install_step3_desc: "समाप्त करने के लिए <strong>\"Install anyway\"</strong> पर टैप करें। हो गया! अब आप रेस के लिए तैयार हैं।", features_title: "रोमांच के लिए बनाया गया", feature1_title: "ग्लोबल लीडरबोर्ड", feature1_desc: "दुनिया भर के खिलाड़ियों के साथ मुकाबला करें। केवल सर्वश्रेष्ठ ही शीर्ष पर पहुंचेंगे।", feature2_title: "सहज नियंत्रण", feature2_desc: "सीखना आसान है, महारत हासिल करना असंभव। हाई-SPEED एक्शन के लिए उत्तरदायी स्वाइप नियंत्रण।", feature3_title: "दोस्तों को चुनौती दें", feature3_desc: "अपने शानदार स्कोर साझा करें और अपने दोस्तों को चुनौती दें कि असली सड़क का मालिक कौन है।", testimonials_title: "खिलाड़ी क्या कह रहे हैं", testimonial1_text: "\"पूरी तरह से व्यसनी! नियंत्रण सुपर स्मूथ हैं और ग्राफिक्स आश्चर्यजनक हैं। इसे नीचे नहीं रख सकता।\"", testimonial1_author: "रेसर_एक्स", testimonial2_text: "\"मोबाइल पर खेला गया सबसे अच्छा ट्रैफिक रेसर गेम। गति का अहसास अविश्वसनीय है! अत्यधिक अनुशंसित।\"", testimonial2_author: "स्पीडडीमन22", testimonial3_text: "\"लीडरबोर्ड पर अपने दोस्तों को चुनौती देना मेरी नई पसंदीदा चीज है। बहुत प्रतिस्पर्धी और मजेदार!\"", testimonial3_author: "एस्फाल्टक्वीन", screenshots_title: "गेम के अंदर का एक्शन", footer_title: "रेस इंतजार कर रही है।", footer_cta: "रेस रैली प्राप्त करें", footer_copy: "&copy; 2025 रेस रैली। सर्वाधिकार सुरक्षित।", coming_soon_title: "जल्द आ रहा है!", coming_soon_text: "यह सुविधा निर्माणाधीन है। अपडेट के लिए बने रहें!" }
+            };
+
+            // यहाँ से माउस वाला जादू शुरू होता है
+            const cursor = document.querySelector('.cursor'); const cursorDot = document.querySelector('.cursor-dot');
+            window.addEventListener('mousemove', e => { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; cursorDot.style.left = e.clientX + 'px'; cursorDot.style.top = e.clientY + 'px'; });
+
+            // Scroll करने पर जो animation आता है, वो यहाँ से है
+            const observer = new IntersectionObserver((e) => { e.forEach((entry) => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } }); }, { threshold: 0.15 });
+            document.querySelectorAll('.animate-on-scroll').forEach((el) => observer.observe(el));
+
+            // कार्ड्स पर 3D वाला इफ़ेक्ट
+            document.querySelectorAll('.tilt-card').forEach(card => {
+                card.addEventListener('mousemove', (e) => { const rect = card.getBoundingClientRect(); const x = e.clientX - rect.left; const y = e.clientY - rect.top; const { width, height } = rect; const rotateX = (y / height - 0.5) * -15; const rotateY = (x / width - 0.5) * 15; card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`; });
+                card.addEventListener('mouseleave', () => { card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)'; });
             });
-        }, { threshold: 0.1 });
-        const animatedElements = document.querySelectorAll('.animate-on-scroll');
-        animatedElements.forEach((el) => observer.observe(el));
 
-        // --- LANGUAGE SWITCHING LOGIC ---
-        const translations = {
-            en: {
-                hero_title: "DOMINATE THE STREETS",
-                hero_subtitle: "Pure Adrenaline. Endless Traffic. One Goal: Survive. Can you handle the speed?",
-                hero_cta: "DOWNLOAD & RACE NOW",
-                install_title: "Secure & Simple Installation",
-                install_why_title: "Why This Security Warning?",
-                install_why_desc: "Your phone's security (Google Play Protect) shows this prompt for any new app from outside the Play Store. It's a standard check. <strong>This does NOT mean the app is unsafe.</strong> We guarantee it is 100% secure.",
-                install_step1_title: "<i class='fas fa-search'></i> STEP 1: SCAN",
-                install_step1_desc: "This is a standard security check. Tap <strong>\"Scan app\"</strong> to begin.",
-                install_step2_title: "<i class='fas fa-cog fa-spin'></i> STEP 2: VERIFY",
-                install_step2_desc: "Play Protect will quickly verify the file. This just takes a moment.",
-                install_step3_title: "<i class='fas fa-flag-checkered'></i> STEP 3: RACE!",
-                install_step3_desc: "Tap <strong>\"Install anyway\"</strong> to finish. That's it! You're ready to burn rubber.",
-                features_title: "Engineered for Thrills",
-                feature1_title: "GLOBAL LEADERBOARDS",
-                feature1_desc: "Go head-to-head with players worldwide. Only the best will reach the top.",
-                feature2_title: "INTUITIVE CONTROLS",
-                feature2_desc: "Easy to learn, impossible to master. Responsive swipe controls for high-speed action.",
-                feature3_title: "CHALLENGE YOUR CREW",
-                feature3_desc: "Share your epic scores and challenge your friends to see who truly owns the road.",
-                screenshots_title: "In-Game Action",
-                footer_title: "The Race Awaits.",
-                footer_cta: "Get Fast Lane Racing",
-                footer_copy: "&copy; 2025 Fast Lane Racing. All Rights Reserved."
-            },
-            hi: {
-                hero_title: "सड़कों पर राज करो",
-                hero_subtitle: "शुद्ध एड्रेनालाईन। अंतहीन ट्रैफिक। एक लक्ष्य: जीवित रहना। क्या आप इस गति को संभाल सकते हैं?",
-                hero_cta: "डाउनलोड करें और रेस करें",
-                install_title: "सुरक्षित और सरल इंस्टॉलेशन",
-                install_why_title: "यह सुरक्षा चेतावनी क्यों?",
-                install_why_desc: "आपके फ़ोन की सुरक्षा (Google Play Protect) प्ले स्टोर के बाहर से किसी भी नए ऐप के लिए यह चेतावनी दिखाती है। यह एक मानक जांच है। <strong>इसका मतलब यह नहीं है कि ऐप असुरक्षित है।</strong> हम गारंटी देते हैं कि यह 100% सुरक्षित है।",
-                install_step1_title: "<i class='fas fa-search'></i> चरण 1: स्कैन करें",
-                install_step1_desc: "यह एक मानक सुरक्षा जांच है। शुरू करने के लिए <strong>\"Scan app\"</strong> पर टैप करें।",
-                install_step2_title: "<i class='fas fa-cog fa-spin'></i> चरण 2: सत्यापित करें",
-                install_step2_desc: "प्ले प्रोटेक्ट फ़ाइल को जल्दी से सत्यापित करेगा। इसमें बस कुछ पल लगते हैं।",
-                install_step3_title: "<i class='fas fa-flag-checkered'></i> चरण 3: रेस करें!",
-                install_step3_desc: "समाप्त करने के लिए <strong>\"Install anyway\"</strong> पर टैप करें। हो गया! अब आप रेस के लिए तैयार हैं।",
-                features_title: "रोमांच के लिए बनाया गया",
-                feature1_title: "ग्लोबल लीडरबोर्ड",
-                feature1_desc: "दुनिया भर के खिलाड़ियों के साथ मुकाबला करें। केवल सर्वश्रेष्ठ ही शीर्ष पर पहुंचेंगे।",
-                feature2_title: "सहज नियंत्रण",
-                feature2_desc: "सीखना आसान है, महारत हासिल करना असंभव। हाई-स्पीड एक्शन के लिए उत्तरदायी स्वाइप नियंत्रण।",
-                feature3_title: "दोस्तों को चुनौती दें",
-                feature3_desc: "अपने शानदार स्कोर साझा करें और अपने दोस्तों को चुनौती दें कि असली सड़क का मालिक कौन है।",
-                screenshots_title: "गेम के अंदर का एक्शन",
-                footer_title: "रेस इंतजार कर रही है।",
-                footer_cta: "फास्ट लेन रेसिंग प्राप्त करें",
-                footer_copy: "&copy; 2025 फास्ट लेन रेसिंग। सर्वाधिकार सुरक्षित।"
-            }
-        };
+            const langButtons = document.querySelectorAll('.lang-switcher button'); const heroTitleElement = document.getElementById('hero-title'); let typeInterval;
+            const typeEffect = (element, text, speed = 100) => { clearInterval(typeInterval); element.innerHTML = ""; let i = 0; const typing = () => { if (i < text.length) { element.innerHTML += text.charAt(i); i++; typeInterval = setTimeout(typing, speed); } }; typing(); };
+            const switchLanguage = (lang) => { document.querySelectorAll('[data-lang-key]').forEach(el => { const key = el.getAttribute('data-lang-key'); if (translations[lang][key] && key !== 'hero_title') { el.innerHTML = translations[lang][key]; } }); typeEffect(heroTitleElement, translations[lang]['hero_title']); langButtons.forEach(btn => { btn.classList.remove('active'); if (btn.id === `btn-${lang}`) { btn.classList.add('active'); } }); localStorage.setItem('preferredLanguage', lang); };
+            langButtons.forEach(button => { button.addEventListener('click', () => { switchLanguage(button.id.split('-')[1]); }); });
 
-        const btnEn = document.getElementById('btn-en');
-        const btnHi = document.getElementById('btn-hi');
-        
-        const switchLanguage = (lang) => {
-            document.querySelectorAll('[data-lang-key]').forEach(el => {
-                const key = el.getAttribute('data-lang-key');
-                el.innerHTML = translations[lang][key];
-            });
-            if (lang === 'hi') {
-                btnHi.classList.add('active');
-                btnEn.classList.remove('active');
-            } else {
-                btnEn.classList.add('active');
-                btnHi.classList.remove('active');
-            }
-        };
-
-        btnEn.addEventListener('click', () => switchLanguage('en'));
-        btnHi.addEventListener('click', () => switchLanguage('hi'));
-        
-        // Set default language on page load
-        switchLanguage('en');
-
+            // पॉप-अप (Trailer और Coming Soon) को खोलने और बंद करने का लॉजिक
+            const trailerModal = document.getElementById('trailer-modal'); const comingSoonModal = document.getElementById('coming-soon-modal'); const openTrailerBtn = document.getElementById('open-trailer-btn'); const videoFrame = trailerModal.querySelector('iframe'); const originalSrc = videoFrame.src;
+            const openModal = (modal) => modal.classList.add('show');
+            const closeModal = (modal) => { modal.classList.remove('show'); if (modal === trailerModal) { videoFrame.src = originalSrc; } };
+            openTrailerBtn.addEventListener('click', () => { videoFrame.src = originalSrc + "?autoplay=1"; openModal(trailerModal); });
+            document.querySelectorAll('.modal').forEach(modal => { const closeBtn = modal.querySelector('.close-modal-btn'); if (closeBtn) { closeBtn.addEventListener('click', () => closeModal(modal)); } modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(modal); }); });
+            document.body.addEventListener('click', (e) => { const link = e.target.closest('a'); if (link && link.getAttribute('href') === '#') { e.preventDefault(); openModal(comingSoonModal); } });
+            window.addEventListener('keydown', (e) => { if (e.key === 'Escape') { document.querySelectorAll('.modal.show').forEach(closeModal); } });
+            
+            // पेज लोड होते ही डिफ़ॉल्ट भाषा सेट करना
+            const savedLang = localStorage.getItem('preferredLanguage') || 'en'; switchLanguage(savedLang);
+        });
     </script>
 </body>
 </html>
